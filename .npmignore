@@ -8,3 +8,5 @@ test
 .coveralls.yml
 .eslintrc
 images
+.huskyrc
+.nvmrc
