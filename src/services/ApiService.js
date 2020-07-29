@@ -9,6 +9,26 @@ const DEFAULT_HEADERS = {
 const ApiService = () => {
     const instance = {}
 
+    const parseErrorMessage = (data) => {
+        if (typeof data.message === 'object') {
+            return Object.values(data.message).join(', ')
+        }
+
+        if (typeof data.error === 'object') {
+            return Object.values(data.error).join(', ')
+        }
+
+        if (data.message) {
+            return data.message
+        }
+
+        if (data.error) {
+            return data.error
+        }
+
+        return data
+    }
+
     return Object.freeze({
         ...instance,
         fetch: async (resource, params) => {
@@ -30,7 +50,7 @@ const ApiService = () => {
                     const result = await res.json()
 
                     if (!res.ok) {
-                        throw new Error(result.message || result.error)
+                        throw new Error(parseErrorMessage(result))
                     }
 
                     return result
