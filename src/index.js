@@ -28,7 +28,7 @@ require('yargs') // eslint-disable-line
             Logger.print()
             Logger.print('Variables')
             Logger.print('---------')
-            data.forEach((item, index) => Logger.print(index + 1, item.key))
+            data.forEach((item) => Logger.print(item.key))
         })
     })
     .command('variable-get [projectId] [name]', 'Print variable content', (yargs) => {
