@@ -5,7 +5,7 @@ Simple cli tool for using gitlab api through command line.
 ## Usage
 
 ```
-npm install @kickass-dev/gitlab-cli
+npm install -g @kickass-dev/gitlab-cli
 ```
 
 Configure CLI
@@ -31,21 +31,17 @@ Configuration can be overwritten by calling init command again.
 
 gitlab-cli [command]
 
-Commands:
-  gitlab-cli init [token] [baseUrl]         Configure cli for usage
-  gitlab-cli variable-list [projectId]      List variables for project
-  gitlab-cli variable-get [projectId]       Print variable content
-  [name]
-  gitlab-cli variable-create [projectId]    Create new variable
-  [name] [value]
-  gitlab-cli variable-update [projectId]    Update variable value
-  [name] [value]
-  gitlab-cli variable-delete [projectId]    Remove variable
-  [name]
+### Commands:  
+  gitlab-cli init [token] [baseUrl]         Configure cli for usage  
+  gitlab-cli variable-list [projectId]      List variables for project  
+  gitlab-cli variable-get [projectId] [name]       Print variable content  
+  gitlab-cli variable-create [projectId] [name] [value]    Create new variable  
+  gitlab-cli variable-update [projectId] [name] [value]    Update variable value  
+  gitlab-cli variable-delete [projectId] [name]    Remove variable  
 
-Options:
-  --help     Show help                                                 [boolean]
-  --version  Show version number                                       [boolean]
+### Options:
+  --help     Show help                                                 [boolean]  
+  --version  Show version number                                       [boolean]  
 
 ## FAQ
 * How do I create a variable with multiline content?
