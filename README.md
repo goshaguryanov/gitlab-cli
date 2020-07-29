@@ -13,6 +13,15 @@ Configure CLI
 gitlab-cli init YOUR_GITLAB_ACCESS_TOKEN https://gitlab.com
 ```
 
+Use
+```
+gitlab-cli variable-create 666 HOMEPAGE_URL https://kickass.website
+```
+or as alias
+```
+gitlab variable-create PROJECT_ID VARIABLE_NAME
+```
+
 You can check [Creating a personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#creating-a-personal-access-token) for information on how to generate your GitLab access token.
 
 This will create configuration file at `~/.gitlabcli/config` and use it for all other commands.
@@ -38,6 +47,20 @@ Commands:
 Options:
   --help     Show help                                                 [boolean]
   --version  Show version number                                       [boolean]
+
+## FAQ
+* How do I create a variable with multiline content?
+
+Just wrap variable value in quotation marks like:
+```
+gitlab-cli variable-update 646 EDITOR_CONFIG "root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4"
+``` 
 
 ## Support
 
