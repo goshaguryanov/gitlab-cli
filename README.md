@@ -13,6 +13,8 @@ Configure CLI
 gitlab-cli init YOUR_GITLAB_ACCESS_TOKEN https://gitlab.com
 ```
 
+You can check [Creating a personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#creating-a-personal-access-token) for information on how to generate your GitLab access token.
+
 Use
 ```
 gitlab-cli variable-create PROJECT_ID HOMEPAGE_URL https://kickass.website
@@ -20,8 +22,6 @@ gitlab-cli variable-create PROJECT_ID HOMEPAGE_URL https://kickass.website
 
 You can find your Project ID inside your GitLab repository:
 ![Where is my Project ID](https://github.com/capJavert/gitlab-cli/raw/master/images/where-is-my-project-id.jpg "Where is my Project ID")
-
-You can check [Creating a personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#creating-a-personal-access-token) for information on how to generate your GitLab access token.
 
 This will create configuration file at `~/.gitlabcli/config` and use it for all other commands.
 
