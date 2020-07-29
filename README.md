@@ -41,8 +41,8 @@ gitlab-cli [command]
   gitlab-cli init [token] [baseUrl]         Configure cli for usage  
   gitlab-cli variable-list [projectId]      List variables for project  
   gitlab-cli variable-get [projectId] [name]       Print variable content  
-  gitlab-cli variable-create [projectId] [name] [value]    Create new variable  
-  gitlab-cli variable-update [projectId] [name] [value]    Update variable value  
+  gitlab-cli variable-create [projectId] [name] [valueOrPath]    Create new variable  
+  gitlab-cli variable-update [projectId] [name] [valueOrPath]    Update variable value  
   gitlab-cli variable-delete [projectId] [name]    Remove variable  
 
 ### Options:

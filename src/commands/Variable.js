@@ -9,17 +9,15 @@ const Variable = () => {
     const parseValue = async (valueOrPath) => {
         let value = valueOrPath
 
-        if (isPath(valueOrPath)) {
-            if (await pathExists(valueOrPath)) {
-                value = await fsAsync.readFile(valueOrPath, 'utf8')
-            } else {
-                const { usePathAsValue } = await prompt([{
-                    name: 'usePathAsValue', type: 'confirm', message: 'Path you provided does not exist, did you mean to use path as variable value instead?', default: true
-                }])
+        if (await pathExists(valueOrPath)) {
+            value = await fsAsync.readFile(valueOrPath, 'utf8')
+        } else if (isPath(valueOrPath)) {
+            const { usePathAsValue } = await prompt([{
+                name: 'usePathAsValue', type: 'confirm', message: 'Path you provided does not exist, did you mean to use path as variable value instead?', default: true
+            }])
 
-                if (!usePathAsValue) {
-                    throw new Error(`File '${valueOrPath}' does not exist!`)
-                }
+            if (!usePathAsValue) {
+                throw new Error(`File '${valueOrPath}' does not exist!`)
             }
         }
 

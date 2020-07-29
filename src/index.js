@@ -58,7 +58,7 @@ yargsInstance
             Logger.print(data.value)
         })
     }))
-    .command('variable-create [projectId] [name] [value]', 'Create new variable', (yargs) => {
+    .command('variable-create [projectId] [name] [valueOrPath]', 'Create new variable', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variable are fetched'
@@ -66,17 +66,17 @@ yargsInstance
             .positional('name', {
                 describe: 'variable name'
             })
-            .positional('value', {
+            .positional('valueOrPath', {
                 describe: 'variable value or path to file'
             })
     }, catchAll(async (argv) => {
-        const data = await commands.variable.create(argv.projectId, argv.name, argv.value)
+        const data = await commands.variable.create(argv.projectId, argv.name, argv.valueOrPath)
 
         resolveResult(data, () => {
             Logger.print(`Variable '${data.key}' created!`)
         })
     }))
-    .command('variable-update [projectId] [name] [value]', 'Update variable value', (yargs) => {
+    .command('variable-update [projectId] [name] [valueOrPath]', 'Update variable value', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variable are fetched'
@@ -84,11 +84,11 @@ yargsInstance
             .positional('name', {
                 describe: 'variable name'
             })
-            .positional('value', {
+            .positional('valueOrPath', {
                 describe: 'variable value or path to file'
             })
     }, catchAll(async (argv) => {
-        const data = await commands.variable.update(argv.projectId, argv.name, argv.value)
+        const data = await commands.variable.update(argv.projectId, argv.name, argv.valueOrPath)
 
         resolveResult(data, () => {
             Logger.print(`Variable '${data.key}' updated!`)
