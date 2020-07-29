@@ -13,6 +13,13 @@ const Variable = () => {
                 key: name,
                 value
             })
+        }),
+        update: async (projectId, name, value) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                key: name,
+                value
+            })
         })
     })
 }

@@ -56,4 +56,20 @@ require('yargs') // eslint-disable-line
 
         Logger.print(`Variable '${data.key}' created!`)
     })
+    .command('variable update [projectId] [name] [value]', 'Update variable value', (yargs) => {
+        yargs
+            .positional('projectId', {
+                describe: 'projectId for which variable are fetched'
+            })
+            .positional('name', {
+                describe: 'variable name'
+            })
+            .positional('value', {
+                describe: 'variable value'
+            })
+    }, async (argv) => {
+        const data = await commands.variable.update(argv.projectId, argv.name, argv.value)
+
+        Logger.print(`Variable '${data.key}' updated!`)
+    })
     .argv
