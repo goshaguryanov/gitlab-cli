@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/capJavert/gitlab-cli#readme",
   "dependencies": {
+    "node-fetch": "^2.6.0",
     "yargs": "^15.4.1"
   },
   "devDependencies": {
