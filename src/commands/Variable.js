@@ -20,6 +20,9 @@ const Variable = () => {
                 key: name,
                 value
             })
+        }),
+        delete: async (projectId, name) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, {
+            method: 'DELETE'
         })
     })
 }

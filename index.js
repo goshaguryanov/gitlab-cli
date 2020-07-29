@@ -1,3 +1,4 @@
+const prompt = require('inquirer').createPromptModule()
 const commands = require('./src/commands')
 const { ConfigService, Logger } = require('./src/services')
 
@@ -14,7 +15,7 @@ require('yargs') // eslint-disable-line
     }, async (argv) => {
         await ConfigService.init(argv.token, argv.baseUrl)
     })
-    .command('variable list [projectId]', 'List variables for project', (yargs) => {
+    .command('variable-list [projectId]', 'List variables for project', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variables are fetched'
@@ -27,7 +28,7 @@ require('yargs') // eslint-disable-line
         Logger.print('---------')
         data.forEach((item, index) => Logger.print(index + 1, item.key))
     })
-    .command('variable get [projectId] [name]', 'Print variable content', (yargs) => {
+    .command('variable-get [projectId] [name]', 'Print variable content', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variables are fetched'
@@ -40,7 +41,7 @@ require('yargs') // eslint-disable-line
 
         Logger.print(data.value)
     })
-    .command('variable create [projectId] [name] [value]', 'Create new variable', (yargs) => {
+    .command('variable-create [projectId] [name] [value]', 'Create new variable', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variable are fetched'
@@ -56,7 +57,7 @@ require('yargs') // eslint-disable-line
 
         Logger.print(`Variable '${data.key}' created!`)
     })
-    .command('variable update [projectId] [name] [value]', 'Update variable value', (yargs) => {
+    .command('variable-update [projectId] [name] [value]', 'Update variable value', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variable are fetched'
@@ -71,5 +72,26 @@ require('yargs') // eslint-disable-line
         const data = await commands.variable.update(argv.projectId, argv.name, argv.value)
 
         Logger.print(`Variable '${data.key}' updated!`)
+    })
+    .command('variable-delete [projectId] [name]', 'Remove variable', (yargs) => {
+        yargs
+            .positional('projectId', {
+                describe: 'projectId for which variable are fetched'
+            })
+            .positional('name', {
+                describe: 'variable name'
+            })
+    }, async (argv) => {
+        const { deleteConfirmed } = await prompt([{
+            name: 'deleteConfirmed', type: 'confirm', message: `Are you sure you wish to delete variable '${argv.name}'?`, default: false
+        }])
+
+        if (!deleteConfirmed) {
+            return
+        }
+
+        await commands.variable.delete(argv.projectId, argv.name)
+
+        Logger.print(`Variable '${argv.name}' removed!`)
     })
     .argv
