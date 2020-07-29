@@ -1,7 +1,7 @@
 const { Logger } = require('../services')
 
 const resolveResult = (data, onSuccess) => {
-    if (data instanceof Error || data.isError) {
+    if (data instanceof Error) {
         Logger.print(data.message)
         return
     }

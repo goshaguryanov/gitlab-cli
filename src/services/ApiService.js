@@ -15,8 +15,7 @@ const ApiService = () => {
             const { token } = ConfigService
 
             if (!token) {
-                Logger.warn('Token is required before making any API calls. Use init command to configure gitlab-cli')
-                return null
+                return new Error('Token is required before making any API calls. Use init command to configure gitlab-cli.')
             }
 
             const data = await fetch(`${ConfigService.baseUrl}/api/v4${resource}`, {
