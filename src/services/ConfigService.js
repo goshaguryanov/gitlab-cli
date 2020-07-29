@@ -1,15 +1,38 @@
 const fs = require('fs')
+const fsAsync = require('fs').promises
 const os = require('os')
 const path = require('path')
 const Logger = require('./Logger')
 
 const ConfigService = () => {
-    const configPath = process.env.GITLAB_CLI_CONFIG_PATH || path.join(os.homedir(), '.gitlabcli', 'config')
+    const configDir = process.env.GITLAB_CLI_CONFIG_DIR || path.join(os.homedir(), '.gitlabcli')
+    const configPath = path.join(configDir, 'config')
 
     let instance
 
-    const saveConfigAsync = (config) => {
-        fs.writeFile(configPath, JSON.stringify(config))
+    const configFolderExists = async () => {
+        try {
+            await fsAsync.access(configDir)
+
+            return true
+        } catch (error) {
+            return false
+        }
+    }
+
+    const saveConfigAsync = async (config) => {
+        try {
+            if (!(await configFolderExists())) {
+                await fsAsync.mkdir(configDir)
+            }
+
+            await fsAsync.writeFile(configPath, JSON.stringify(config))
+
+            return true
+        } catch (error) {
+            Logger.error(error.message)
+            return false
+        }
     }
 
     try {
@@ -20,7 +43,7 @@ const ConfigService = () => {
 
         instance = {
             token: undefined,
-            baseUrl: 'https://gitlab.com/api/v4'
+            baseUrl: 'https://gitlab.com'
         }
 
         saveConfigAsync(instance)
@@ -28,15 +51,21 @@ const ConfigService = () => {
 
     return Object.freeze({
         ...instance,
-        setToken: (token) => {
+        init: async (token, baseUrl) => {
             instance.token = token
-
-            saveConfigAsync(instance)
-        },
-        setBaseUrl: (baseUrl) => {
             instance.baseUrl = baseUrl
 
-            saveConfigAsync(instance)
+            await saveConfigAsync(instance)
+        },
+        setToken: async (token) => {
+            instance.token = token
+
+            await saveConfigAsync(instance)
+        },
+        setBaseUrl: async (baseUrl) => {
+            instance.baseUrl = baseUrl
+
+            await saveConfigAsync(instance)
         }
     })
 }

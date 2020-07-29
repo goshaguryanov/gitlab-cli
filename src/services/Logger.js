@@ -1,17 +1,20 @@
 const Logger = () => Object.freeze({
+    print: (...args) => {
+        console.log(...args)
+    },
     log: (...args) => {
         if (!process.env.NODE_ENV !== 'production' || !!process.env.DEBUG) {
-            console.log(...args)
+            console.log('[LOG]', ...args)
         }
     },
     warn: (...args) => {
         if (!process.env.NODE_ENV !== 'production' || !!process.env.DEBUG) {
-            console.warn(...args)
+            console.warn('[WARN]', ...args)
         }
     },
     error: (...args) => {
         if (!process.env.NODE_ENV !== 'production' || !!process.env.DEBUG) {
-            console.error(...args)
+            console.error('[ERROR]', ...args)
         }
     }
 })
