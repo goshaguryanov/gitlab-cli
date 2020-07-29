@@ -20,6 +20,12 @@ Use
 gitlab-cli variable-create PROJECT_ID HOMEPAGE_URL https://kickass.website
 ```
 
+Instead of value you can also provide relative file path. In that case contents of the file
+will be used as variable value.
+```
+gitlab-cli variable-create PROJECT_ID HOMEPAGE_URL ../path/to/my/env/file
+```
+
 You can find your Project ID inside your GitLab repository:
 ![Where is my Project ID](https://github.com/capJavert/gitlab-cli/raw/master/images/where-is-my-project-id.jpg "Where is my Project ID")
 
@@ -56,6 +62,7 @@ insert_final_newline = true
 indent_style = space
 indent_size = 4"
 ``` 
+or load your variable value from file by providing file path instead of value.
 
 ## Support
 

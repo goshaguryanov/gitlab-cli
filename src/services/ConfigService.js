@@ -3,6 +3,7 @@ const fsAsync = require('fs').promises
 const os = require('os')
 const path = require('path')
 const Logger = require('./Logger')
+const { pathExists } = require('../helpers')
 
 const ConfigService = () => {
     const configDir = process.env.GITLAB_CLI_CONFIG_DIR || path.join(os.homedir(), '.gitlabcli')
@@ -10,19 +11,9 @@ const ConfigService = () => {
 
     let instance
 
-    const configFolderExists = async () => {
-        try {
-            await fsAsync.access(configDir)
-
-            return true
-        } catch (error) {
-            return false
-        }
-    }
-
     const saveConfigAsync = async (config) => {
         try {
-            if (!(await configFolderExists())) {
+            if (!(await pathExists())) {
                 await fsAsync.mkdir(configDir)
             }
 
@@ -36,7 +27,7 @@ const ConfigService = () => {
     }
 
     try {
-        instance = JSON.parse(fs.readFileSync(configPath))
+        instance = JSON.parse(fs.readFileSync(configPath, 'utf8'))
     } catch (error) {
         Logger.error(error.message)
         // failed reading config file so apply defaults
