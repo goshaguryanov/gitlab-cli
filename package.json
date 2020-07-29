@@ -1,6 +1,6 @@
 {
   "name": "@kickass-dev/gitlab-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "description": "Simple cli tool for using gitlab api",
   "main": "index.js",
