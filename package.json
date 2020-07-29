@@ -9,7 +9,9 @@
     "lint": "eslint --max-warnings=0 index.js src"
   },
   "bin": {
-    "gitlab-cli": "./bin.js"
+    "gitlab-cli": "./bin.js",
+    "gitlabcli": "./bin.js",
+    "gitlab": "./bin.js"
   },
   "repository": {
     "type": "git",
