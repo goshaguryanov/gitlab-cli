@@ -9,7 +9,7 @@
     "lint": "eslint --max-warnings=0 index.js src"
   },
   "bin": {
-    "gitlab-cli": "NODE_ENV=production ./index.js"
+    "gitlab-cli": "./bin.js"
   },
   "repository": {
     "type": "git",
