@@ -27,8 +27,20 @@ const ApiService = () => {
                     'PRIVATE-TOKEN': token
                 }
             })
-                .then((res) => res.json())
-                .catch((error) => Logger.error(error.message))
+                .then(async (res) => {
+                    const result = await res.json()
+
+                    if (!res.ok) {
+                        throw new Error(result.message || result.error)
+                    }
+
+                    return result
+                })
+                .catch((error) => {
+                    Logger.error(error.message)
+
+                    return error
+                })
 
             return data
         }

@@ -1,6 +1,7 @@
 const prompt = require('inquirer').createPromptModule()
 const commands = require('./commands')
 const { ConfigService, Logger } = require('./services')
+const { resolveResult } = require('./helpers')
 
 require('yargs') // eslint-disable-line
     .command('init [token] [baseUrl]', 'Configure cli for usage', (yargs) => {
@@ -23,10 +24,12 @@ require('yargs') // eslint-disable-line
     }, async (argv) => {
         const data = await commands.variable.list(argv.projectId)
 
-        Logger.print()
-        Logger.print('Variables')
-        Logger.print('---------')
-        data.forEach((item, index) => Logger.print(index + 1, item.key))
+        resolveResult(data, () => {
+            Logger.print()
+            Logger.print('Variables')
+            Logger.print('---------')
+            data.forEach((item, index) => Logger.print(index + 1, item.key))
+        })
     })
     .command('variable-get [projectId] [name]', 'Print variable content', (yargs) => {
         yargs
@@ -39,7 +42,9 @@ require('yargs') // eslint-disable-line
     }, async (argv) => {
         const data = await commands.variable.get(argv.projectId, argv.name)
 
-        Logger.print(data.value)
+        resolveResult(data, () => {
+            Logger.print(data.value)
+        })
     })
     .command('variable-create [projectId] [name] [value]', 'Create new variable', (yargs) => {
         yargs
@@ -55,7 +60,9 @@ require('yargs') // eslint-disable-line
     }, async (argv) => {
         const data = await commands.variable.create(argv.projectId, argv.name, argv.value)
 
-        Logger.print(`Variable '${data.key}' created!`)
+        resolveResult(data, () => {
+            Logger.print(`Variable '${data.key}' created!`)
+        })
     })
     .command('variable-update [projectId] [name] [value]', 'Update variable value', (yargs) => {
         yargs
@@ -71,7 +78,9 @@ require('yargs') // eslint-disable-line
     }, async (argv) => {
         const data = await commands.variable.update(argv.projectId, argv.name, argv.value)
 
-        Logger.print(`Variable '${data.key}' updated!`)
+        resolveResult(data, () => {
+            Logger.print(`Variable '${data.key}' updated!`)
+        })
     })
     .command('variable-delete [projectId] [name]', 'Remove variable', (yargs) => {
         yargs
@@ -90,8 +99,10 @@ require('yargs') // eslint-disable-line
             return
         }
 
-        await commands.variable.delete(argv.projectId, argv.name)
+        const data = await commands.variable.delete(argv.projectId, argv.name)
 
-        Logger.print(`Variable '${argv.name}' removed!`)
+        resolveResult(data, () => {
+            Logger.print(`Variable '${argv.name}' removed!`)
+        })
     })
     .argv
