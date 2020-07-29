@@ -5,7 +5,8 @@ const Variable = () => {
 
     return Object.freeze({
         ...instance,
-        list: async (projectId) => ApiService.fetch(`/projects/${projectId}/variables`, { method: 'GET' })
+        list: async (projectId) => ApiService.fetch(`/projects/${projectId}/variables`, { method: 'GET' }),
+        get: async (projectId, name) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, { method: 'GET' })
     })
 }
 

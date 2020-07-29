@@ -2,7 +2,7 @@ const commands = require('./src/commands')
 const { ConfigService, Logger } = require('./src/services')
 
 require('yargs') // eslint-disable-line
-    .command('init [token] [baseUrl]', 'list variables for project', (yargs) => {
+    .command('init [token] [baseUrl]', 'Configure cli for usage', (yargs) => {
         yargs
             .positional('token', {
                 describe: 'Your gitlab access token (check here on how to generate https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)'
@@ -14,7 +14,7 @@ require('yargs') // eslint-disable-line
     }, async (argv) => {
         await ConfigService.init(argv.token, argv.baseUrl)
     })
-    .command('variable list [projectId]', 'list variables for project', (yargs) => {
+    .command('variable list [projectId]', 'List variables for project', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variables are fetched'
@@ -26,5 +26,18 @@ require('yargs') // eslint-disable-line
         Logger.print('Variables')
         Logger.print('---------')
         data.forEach((item, index) => Logger.print(index + 1, item.key))
+    })
+    .command('variable get [projectId] [name]', 'Print variable content', (yargs) => {
+        yargs
+            .positional('projectId', {
+                describe: 'projectId for which variables are fetched'
+            })
+            .positional('name', {
+                describe: 'variable name'
+            })
+    }, async (argv) => {
+        const data = await commands.variable.get(argv.projectId, argv.name)
+
+        Logger.print(data.value)
     })
     .argv
