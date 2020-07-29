@@ -16,7 +16,7 @@ const catchAll = (callback) => async (...args) => {
 
 // eslint-disable-next-line no-unused-expressions
 yargsInstance
-    .command('init [token] [baseUrl]', 'Configure cli for usage', (yargs) => {
+    .command('init <token> [baseUrl]', 'Configure cli for usage', (yargs) => {
         yargs
             .positional('token', {
                 describe: 'Your gitlab access token (check here on how to generate https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html)'
@@ -28,7 +28,7 @@ yargsInstance
     }, catchAll(async (argv) => {
         await ConfigService.init(argv.token, argv.baseUrl)
     }))
-    .command('variable-list [projectId]', 'List variables for project', (yargs) => {
+    .command('variable-list <projectId>', 'List variables for project', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variables are fetched'
@@ -43,7 +43,7 @@ yargsInstance
             data.forEach((item) => Logger.print(item.key))
         })
     }))
-    .command('variable-get [projectId] [name]', 'Print variable content', (yargs) => {
+    .command('variable-get <projectId> <name>', 'Print variable content', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variables are fetched'
@@ -58,7 +58,7 @@ yargsInstance
             Logger.print(data.value)
         })
     }))
-    .command('variable-create [projectId] [name] [valueOrPath]', 'Create new variable', (yargs) => {
+    .command('variable-create <projectId> <name> <valueOrPath>', 'Create new variable', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variable are fetched'
@@ -76,7 +76,7 @@ yargsInstance
             Logger.print(`Variable '${data.key}' created!`)
         })
     }))
-    .command('variable-update [projectId] [name] [valueOrPath]', 'Update variable value', (yargs) => {
+    .command('variable-update <projectId> <name> <valueOrPath>', 'Update variable value', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variable are fetched'
@@ -94,7 +94,7 @@ yargsInstance
             Logger.print(`Variable '${data.key}' updated!`)
         })
     }))
-    .command('variable-delete [projectId] [name]', 'Remove variable', (yargs) => {
+    .command('variable-delete <projectId> <name>', 'Remove variable', (yargs) => {
         yargs
             .positional('projectId', {
                 describe: 'projectId for which variable are fetched'
