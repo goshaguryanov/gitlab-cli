@@ -29,6 +29,18 @@ const ApiService = () => {
         return data
     }
 
+    const parseResponse = async (res) => {
+        try {
+            const result = await res.json()
+
+            return result
+        } catch (error) {
+            Logger.error(error.message)
+        }
+
+        return null
+    }
+
     return Object.freeze({
         ...instance,
         fetch: async (resource, params) => {
@@ -47,7 +59,7 @@ const ApiService = () => {
                 }
             })
                 .then(async (res) => {
-                    const result = await res.json()
+                    const result = await parseResponse(res)
 
                     if (!res.ok) {
                         throw new Error(parseErrorMessage(result))
