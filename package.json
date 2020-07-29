@@ -4,7 +4,8 @@
   "description": "Simple cli tool for using gitlab api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --max-warnings=0 index.js src"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,14 @@
   "bugs": {
     "url": "https://github.com/capJavert/gitlab-cli/issues"
   },
-  "homepage": "https://github.com/capJavert/gitlab-cli#readme"
+  "homepage": "https://github.com/capJavert/gitlab-cli#readme",
+  "dependencies": {
+    "yargs": "^15.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "husky": "^4.2.5"
+  }
 }
