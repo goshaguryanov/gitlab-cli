@@ -40,4 +40,20 @@ require('yargs') // eslint-disable-line
 
         Logger.print(data.value)
     })
+    .command('variable create [projectId] [name] [value]', 'Create new variable', (yargs) => {
+        yargs
+            .positional('projectId', {
+                describe: 'projectId for which variable are fetched'
+            })
+            .positional('name', {
+                describe: 'variable name'
+            })
+            .positional('value', {
+                describe: 'variable value'
+            })
+    }, async (argv) => {
+        const data = await commands.variable.create(argv.projectId, argv.name, argv.value)
+
+        Logger.print(`Variable '${data.key}' created!`)
+    })
     .argv

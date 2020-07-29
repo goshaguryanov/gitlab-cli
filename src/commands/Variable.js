@@ -6,7 +6,14 @@ const Variable = () => {
     return Object.freeze({
         ...instance,
         list: async (projectId) => ApiService.fetch(`/projects/${projectId}/variables`, { method: 'GET' }),
-        get: async (projectId, name) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, { method: 'GET' })
+        get: async (projectId, name) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, { method: 'GET' }),
+        create: async (projectId, name, value) => ApiService.fetch(`/projects/${projectId}/variables`, {
+            method: 'POST',
+            body: JSON.stringify({
+                key: name,
+                value
+            })
+        })
     })
 }
 
