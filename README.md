@@ -15,12 +15,15 @@ gitlab-cli init YOUR_GITLAB_ACCESS_TOKEN https://gitlab.com
 
 Use
 ```
-gitlab-cli variable-create 666 HOMEPAGE_URL https://kickass.website
+gitlab-cli variable-create PROJECT_ID HOMEPAGE_URL https://kickass.website
 ```
 or as alias
 ```
 gitlab variable-create PROJECT_ID VARIABLE_NAME
 ```
+
+You can find your Project ID inside your GitLab repository:
+![Where is my Project ID](https://github.com/capJavert/gitlab-cli/raw/master/images/where-is-my-project-id.jpg "Where is my Project ID")
 
 You can check [Creating a personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#creating-a-personal-access-token) for information on how to generate your GitLab access token.
 

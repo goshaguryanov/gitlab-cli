@@ -1,0 +1,10 @@
+*.tgz
+package-lock.json
+yarn.lock
+coverage
+test
+.editorconfig
+.travis.yml
+.coveralls.yml
+.eslintrc
+images
