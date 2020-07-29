@@ -10,8 +10,7 @@
   },
   "bin": {
     "gitlab-cli": "./bin.js",
-    "gitlabcli": "./bin.js",
-    "gitlab": "./bin.js"
+    "gitlabcli": "./bin.js"
   },
   "repository": {
     "type": "git",
