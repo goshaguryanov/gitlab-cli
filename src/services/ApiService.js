@@ -1,6 +1,5 @@
 const fetch = require('node-fetch')
 const Logger = require('./Logger')
-const ConfigService = require('./ConfigService')
 
 const DEFAULT_HEADERS = {
     'content-type': 'application/json'
@@ -43,14 +42,21 @@ const ApiService = () => {
 
     return Object.freeze({
         ...instance,
+        init: ({ configService }) => {
+            instance.configService = configService
+        },
         fetch: async (resource, params) => {
-            const { token } = ConfigService
+            if (!instance.configService) {
+                return new Error('ConfigService is required before making any API calls. Provide it to ApiService.init method.')
+            }
+
+            const { token } = instance.configService
 
             if (!token) {
                 return new Error('Token is required before making any API calls. Use init command to configure gitlab-cli.')
             }
 
-            const data = await fetch(`${ConfigService.baseUrl}/api/v4${resource}`, {
+            const data = await fetch(`${instance.configService.baseUrl}/api/v4${resource}`, {
                 ...params,
                 headers: {
                     ...params.headers,

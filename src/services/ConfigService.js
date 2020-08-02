@@ -6,10 +6,10 @@ const Logger = require('./Logger')
 const { pathExists } = require('../helpers')
 
 const ConfigService = () => {
+    let instance
+
     const configDir = process.env.GITLAB_CLI_CONFIG_DIR || path.join(os.homedir(), '.gitlabcli')
     const configPath = path.join(configDir, 'config')
-
-    let instance
 
     const saveConfigAsync = async (config) => {
         try {

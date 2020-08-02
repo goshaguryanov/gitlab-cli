@@ -1,7 +1,10 @@
 const fsAsync = require('fs').promises
 const prompt = require('inquirer').createPromptModule()
-const ApiService = require('../services/ApiService.js')
-const { pathExists, isPath } = require('../helpers')
+const { VariableService, Logger } = require('../services')
+const {
+    resolveResult, catchAll, pathExists
+} = require('../helpers')
+const isPath = require('../helpers/isPath')
 
 const Variable = () => {
     const instance = {}
@@ -26,25 +29,128 @@ const Variable = () => {
 
     return Object.freeze({
         ...instance,
-        list: async (projectId) => ApiService.fetch(`/projects/${projectId}/variables`, { method: 'GET' }),
-        get: async (projectId, name) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, { method: 'GET' }),
-        create: async (projectId, name, valueOrPath) => ApiService.fetch(`/projects/${projectId}/variables`, {
-            method: 'POST',
-            body: JSON.stringify({
-                key: name,
-                value: await parseValue(valueOrPath)
+        list: {
+            command: 'variable-list <projectId>',
+            describe: 'List variables for project',
+            builder: (yargs) => {
+                yargs
+                    .positional('projectId', {
+                        describe: 'projectId for which variables are fetched'
+                    })
+            },
+            handler: catchAll(async (argv) => {
+                const data = await VariableService.list(argv.projectId)
+
+                resolveResult(data, () => {
+                    Logger.print()
+                    Logger.print('Variables')
+                    Logger.print('---------')
+                    data.forEach((item) => Logger.print(item.key))
+                })
             })
-        }),
-        update: async (projectId, name, valueOrPath) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                key: name,
-                value: await parseValue(valueOrPath)
+        },
+        get: {
+            command: 'variable-get <projectId> <name>',
+            describe: 'Print variable content',
+            builder: (yargs) => {
+                yargs
+                    .positional('projectId', {
+                        describe: 'projectId for which variables are fetched'
+                    })
+                    .positional('name', {
+                        describe: 'variable name'
+                    })
+            },
+            handler: catchAll(async (argv) => {
+                const data = await VariableService.get(argv.projectId, argv.name)
+
+                resolveResult(data, () => {
+                    Logger.print(data.value)
+                })
             })
-        }),
-        delete: async (projectId, name) => ApiService.fetch(`/projects/${projectId}/variables/${name}`, {
-            method: 'DELETE'
-        })
+        },
+        create: {
+            command: 'variable-create <projectId> <name> <valueOrPath>',
+            describe: 'Create new variable',
+            builder: (yargs) => {
+                yargs
+                    .positional('projectId', {
+                        describe: 'projectId for which variable are fetched'
+                    })
+                    .positional('name', {
+                        describe: 'variable name'
+                    })
+                    .positional('valueOrPath', {
+                        describe: 'variable value or path to file'
+                    })
+            },
+            handler: catchAll(async (argv) => {
+                const data = await VariableService.create(
+                    argv.projectId,
+                    argv.name,
+                    await parseValue(argv.valueOrPath)
+                )
+
+                resolveResult(data, () => {
+                    Logger.print(`Variable '${data.key}' created!`)
+                })
+            })
+        },
+        update: {
+            command: 'variable-update <projectId> <name> <valueOrPath>',
+            describe: 'Update variable value',
+            builder: (yargs) => {
+                yargs
+                    .positional('projectId', {
+                        describe: 'projectId for which variable are fetched'
+                    })
+                    .positional('name', {
+                        describe: 'variable name'
+                    })
+                    .positional('valueOrPath', {
+                        describe: 'variable value or path to file'
+                    })
+            },
+            handler: catchAll(async (argv) => {
+                const data = await VariableService.update(
+                    argv.projectId,
+                    argv.name,
+                    await parseValue(argv.valueOrPath)
+                )
+
+                resolveResult(data, () => {
+                    Logger.print(`Variable '${data.key}' updated!`)
+                })
+            })
+        },
+        delete: {
+            command: 'variable-delete <projectId> <name>',
+            describe: 'Delete variable',
+            builder: (yargs) => {
+                yargs
+                    .positional('projectId', {
+                        describe: 'projectId for which variable are fetched'
+                    })
+                    .positional('name', {
+                        describe: 'variable name'
+                    })
+            },
+            handler: catchAll(async (argv) => {
+                const { deleteConfirmed } = await prompt([{
+                    name: 'deleteConfirmed', type: 'confirm', message: `Are you sure you wish to delete variable '${argv.name}'?`, default: false
+                }])
+
+                if (!deleteConfirmed) {
+                    return
+                }
+
+                const data = await VariableService.delete(argv.projectId, argv.name)
+
+                resolveResult(data, () => {
+                    Logger.print(`Variable '${argv.name}' removed!`)
+                })
+            })
+        }
     })
 }
 
