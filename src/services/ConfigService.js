@@ -13,7 +13,7 @@ const ConfigService = () => {
 
     const saveConfigAsync = async (config) => {
         try {
-            if (!(await pathExists())) {
+            if (!(await pathExists(configDir))) {
                 await fsAsync.mkdir(configDir)
             }
 

@@ -3,17 +3,17 @@ const Logger = () => Object.freeze({
         console.log(...args)
     },
     log: (...args) => {
-        if (process.env.NODE_ENV !== 'production' || !!process.env.VERBOSE) {
+        if (process.env.VERBOSE) {
             console.log('[LOG]', ...args)
         }
     },
     warn: (...args) => {
-        if (process.env.NODE_ENV !== 'production' || !!process.env.VERBOSE) {
+        if (process.env.VERBOSE) {
             console.warn('[WARN]', ...args)
         }
     },
     error: (...args) => {
-        if (process.env.NODE_ENV !== 'production' || !!process.env.VERBOSE) {
+        if (process.env.VERBOSE) {
             console.error('[ERROR]', ...args)
         }
     }

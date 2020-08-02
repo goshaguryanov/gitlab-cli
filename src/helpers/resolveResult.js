@@ -1,4 +1,4 @@
-const { Logger } = require('../services/Logger')
+const Logger = require('../services/Logger')
 
 const resolveResult = (data, onSuccess) => {
     if (data instanceof Error) {

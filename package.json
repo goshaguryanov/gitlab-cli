@@ -3,7 +3,7 @@
   "version": "0.0.6",
   "private": false,
   "description": "Simple cli tool for using gitlab api",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --max-warnings=0 index.js src"
