@@ -119,3 +119,5 @@ yargsInstance
     }))
     .wrap(yargsInstance.terminalWidth())
     .argv
+
+module.exports = commands
