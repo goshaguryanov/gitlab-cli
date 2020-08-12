@@ -1,5 +1,7 @@
 # Gitlab CLI
 
+[![npm](https://img.shields.io/npm/v/@kickass-dev/gitlab-cli)](https://www.npmjs.com/package/@kickass-dev/gitlab-cli)
+
 Simple cli tool for using gitlab api through command line.
 
 ## Setup
