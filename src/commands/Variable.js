@@ -2,7 +2,7 @@ const fsAsync = require('fs').promises
 const prompt = require('inquirer').createPromptModule()
 const { VariableService, Logger } = require('../services')
 const {
-    resolveResult, catchAll, pathExists
+    resolveResult, catchAll, pathExists, globalArgs
 } = require('../helpers')
 const isPath = require('../helpers/isPath')
 
@@ -32,12 +32,12 @@ const Variable = () => {
         list: {
             command: 'variable-list <projectId>',
             describe: 'List variables for project',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which variables are fetched'
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await VariableService.list(argv.projectId)
 
@@ -46,13 +46,13 @@ const Variable = () => {
                     Logger.print('Variables')
                     Logger.print('---------')
                     data.forEach((item) => Logger.print(item.key))
-                })
+                }, argv)
             })
         },
         get: {
             command: 'variable-get <projectId> <name>',
             describe: 'Print variable content',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which variables are fetched'
@@ -60,19 +60,19 @@ const Variable = () => {
                     .positional('name', {
                         describe: 'variable name'
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await VariableService.get(argv.projectId, argv.name)
 
                 resolveResult(data, () => {
                     Logger.print(data.value)
-                })
+                }, argv)
             })
         },
         create: {
             command: 'variable-create <projectId> <name> <valueOrPath>',
             describe: 'Create new variable',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which variable are fetched'
@@ -83,7 +83,7 @@ const Variable = () => {
                     .positional('valueOrPath', {
                         describe: 'variable value or path to file'
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await VariableService.create(
                     argv.projectId,
@@ -93,13 +93,13 @@ const Variable = () => {
 
                 resolveResult(data, () => {
                     Logger.print(`Variable '${data.key}' created!`)
-                })
+                }, argv)
             })
         },
         update: {
             command: 'variable-update <projectId> <name> <valueOrPath>',
             describe: 'Update variable value',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which variable are fetched'
@@ -110,7 +110,7 @@ const Variable = () => {
                     .positional('valueOrPath', {
                         describe: 'variable value or path to file'
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await VariableService.update(
                     argv.projectId,
@@ -120,13 +120,13 @@ const Variable = () => {
 
                 resolveResult(data, () => {
                     Logger.print(`Variable '${data.key}' updated!`)
-                })
+                }, argv)
             })
         },
         delete: {
             command: 'variable-delete <projectId> <name>',
             describe: 'Delete variable',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which variable are fetched'
@@ -134,7 +134,7 @@ const Variable = () => {
                     .positional('name', {
                         describe: 'variable name'
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const { deleteConfirmed } = await prompt([{
                     name: 'deleteConfirmed', type: 'confirm', message: `Are you sure you wish to delete variable '${argv.name}'?`, default: false
@@ -148,7 +148,7 @@ const Variable = () => {
 
                 resolveResult(data, () => {
                     Logger.print(`Variable '${argv.name}' removed!`)
-                })
+                }, argv)
             })
         }
     })

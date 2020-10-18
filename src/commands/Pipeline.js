@@ -1,7 +1,7 @@
 const prompt = require('inquirer').createPromptModule()
 const { PipelineService, Logger } = require('../services')
 const {
-    resolveResult, catchAll
+    resolveResult, catchAll, globalArgs
 } = require('../helpers')
 
 const Pipeline = () => {
@@ -12,7 +12,7 @@ const Pipeline = () => {
         list: {
             command: 'pipeline-list <projectId> [page] [perPage]',
             describe: 'List pipelines for project',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which pipelines are fetched'
@@ -25,7 +25,7 @@ const Pipeline = () => {
                         describe: 'results to show per page (max=100)',
                         default: 20
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await PipelineService.list(argv.projectId, argv.page, argv.perPage)
 
@@ -37,13 +37,13 @@ const Pipeline = () => {
                         // eslint-disable-next-line camelcase
                         id, status, created_at, web_url
                     }) => Logger.print(id, status.toUpperCase(), created_at, web_url))
-                })
+                }, argv)
             })
         },
         get: {
             command: 'pipeline-get <projectId> <id>',
             describe: 'Get pipeline status',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which pipelines are fetched'
@@ -55,7 +55,7 @@ const Pipeline = () => {
                         describe: 'get other entities for pipeline',
                         choices: ['variables', 'test_report']
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await PipelineService.get(argv.projectId, argv.id, argv.entity)
 
@@ -76,13 +76,13 @@ const Pipeline = () => {
                             Logger.print(`${key}:`, data[key])
                         }
                     })
-                })
+                }, argv)
             })
         },
         create: {
             command: 'pipeline-create <projectId> <ref>',
             describe: 'Start new pipeline',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which pipelines are fetched'
@@ -90,7 +90,7 @@ const Pipeline = () => {
                     .positional('ref', {
                         describe: 'reference to commit'
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await PipelineService.create(
                     argv.projectId,
@@ -99,13 +99,13 @@ const Pipeline = () => {
 
                 resolveResult(data, () => {
                     Logger.print(`Pipeline #${data.id} created and ${data.status}...`)
-                })
+                }, argv)
             })
         },
         update: {
             command: 'pipeline-update <projectId> <id> <action>',
             describe: 'Update pipeline status',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which pipelines are fetched'
@@ -117,7 +117,7 @@ const Pipeline = () => {
                         describe: 'action to perform on pipeline',
                         choices: ['retry', 'cancel']
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const data = await PipelineService.update(
                     argv.projectId,
@@ -127,13 +127,13 @@ const Pipeline = () => {
 
                 resolveResult(data, () => {
                     Logger.print(`Pipeline #${data.id} updated and ${data.status}...`)
-                })
+                }, argv)
             })
         },
         delete: {
             command: 'pipeline-delete <projectId> <id>',
             describe: 'Delete pipeline',
-            builder: (yargs) => {
+            builder: globalArgs((yargs) => {
                 yargs
                     .positional('projectId', {
                         describe: 'projectId for which pipelines are fetched'
@@ -141,7 +141,7 @@ const Pipeline = () => {
                     .positional('id', {
                         describe: 'pipeline id'
                     })
-            },
+            }),
             handler: catchAll(async (argv) => {
                 const { deleteConfirmed } = await prompt([{
                     name: 'deleteConfirmed', type: 'confirm', message: `Are you sure you wish to delete pipeline #${argv.id}?`, default: false
@@ -155,7 +155,7 @@ const Pipeline = () => {
 
                 resolveResult(data, () => {
                     Logger.print(`Pipeline #${argv.id} removed!`)
-                })
+                }, argv)
             })
         }
     })

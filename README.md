@@ -103,6 +103,16 @@ indent_size = 4"
 ``` 
 or load your variable value from file by providing file path instead of value.
 
+* I wish to output original (JSON) response from Gitlab API, how can I do that?
+
+Every command supports global `--raw` option, use it like:
+```
+gitlab-cli pipeline-list 646 --raw
+```
+
+This will output original JSON string received from Gitlab API. You can use it to parse it
+by yourself or pipe to some other command for processing (for example inside CI/CD job).
+
 ## Support
 
 ### Currently supported
