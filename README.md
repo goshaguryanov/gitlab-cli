@@ -65,24 +65,38 @@ gitlab-cli pipeline-update 646 21807 retry
 gitlab-cli pipeline-update 646 21807 cancel
 ```
 
+### List runners for project
+
+```
+> gitlab-cli runner-list 646
+33 frontend ONLINE 255.255.32.197
+738 macosrunner ONLINE 255.255.14.247
+1655 azure-runner ONLINE 255.255.154.234
+1798 k6-runner PAUSED 255.255.255.152
+```
+
+### Enable or disable runner for project
+
+```
+gitlab-cli runner-enable 646 33
+gitlab-cli runner-disable 646 33
+```
+
 **You can find other commands with examples and usages in the Help section below.***
 
 ## Help
 
-gitlab-cli [command]
+Get full list of commands:
 
-### Commands:  
-  gitlab-cli init \<token> [baseUrl]         Configure cli for usage  
-  gitlab-cli variable-list \<projectId>      List variables for project  
-  gitlab-cli variable-get \<projectId> \<name>       Print variable content  
-  gitlab-cli variable-create \<projectId> \<name> \<valueOrPath>    Create new variable  
-  gitlab-cli variable-update \<projectId> \<name> \<valueOrPath>    Update variable value  
-  gitlab-cli variable-delete \<projectId> \<name>    Remove variable  
-  gitlab-cli pipeline-list \<projectId> [page] [perPage]        List pipelines for project  
-  gitlab-cli pipeline-get \<projectId> \<id>                     Get pipeline status  
-  gitlab-cli pipeline-create \<projectId> \<ref>                 Start new pipeline  
-  gitlab-cli pipeline-update \<projectId> \<id> \<action>         Update pipeline status  
-  gitlab-cli pipeline-delete \<projectId> \<id>                  Delete pipeline  
+```
+gitlab-cli --help
+```
+
+Get help for specific command:
+
+```
+gitlab-cli [command] --help
+```
 
 ### Options:
   --help     Show help                                                 [boolean]  
@@ -118,9 +132,9 @@ by yourself or pipe to some other command for processing (for example inside CI/
 ### Currently supported
 - [x] Variables
 - [x] Pipelines
+- [x] Runners
 
 ### Next
-- [ ] Runners
 - [ ] Issues
 - [ ] Releases
 

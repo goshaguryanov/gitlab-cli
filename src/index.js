@@ -31,6 +31,11 @@ yargsInstance
     .command(commands.pipeline.create)
     .command(commands.pipeline.update)
     .command(commands.pipeline.delete)
+    .command(commands.runner.list)
+    .command(commands.runner.get)
+    .command(commands.runner.enable)
+    .command(commands.runner.disable)
+    .command(commands.runner.delete)
     .wrap(yargsInstance.terminalWidth())
     .argv
 
