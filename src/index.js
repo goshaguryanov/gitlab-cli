@@ -36,6 +36,7 @@ yargsInstance
     .command(commands.runner.enable)
     .command(commands.runner.disable)
     .command(commands.runner.delete)
+    .command(commands.issue.list)
     .wrap(yargsInstance.terminalWidth())
     .argv
 

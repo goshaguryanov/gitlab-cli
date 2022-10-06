@@ -82,6 +82,16 @@ gitlab-cli runner-enable 646 33
 gitlab-cli runner-disable 646 33
 ```
 
+### List issues for project
+
+```
+> gitlab-cli issue-list 646
+108473084 OPENED 2022-05-12T19:50:29.097Z https://gitlab.com/capJavert/test/-/issues/13
+108470014 OPENED 2022-05-12T18:47:53.820Z https://gitlab.com/capJavert/test/-/issues/12
+108469767 OPENED 2022-05-12T18:41:40.416Z https://gitlab.com/capJavert/test/-/issues/11
+108469728 CLOSED 2022-05-12T18:40:29.520Z https://gitlab.com/capJavert/test/-/issues/10
+```
+
 **You can find other commands with examples and usages in the Help section below.***
 
 ## Help
@@ -133,9 +143,9 @@ by yourself or pipe to some other command for processing (for example inside CI/
 - [x] Variables
 - [x] Pipelines
 - [x] Runners
+- [x] Issues (partial)
 
 ### Next
-- [ ] Issues
 - [ ] Releases
 
 

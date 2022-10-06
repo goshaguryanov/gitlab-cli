@@ -4,6 +4,7 @@ const Logger = require('./Logger')
 const VariableService = require('./VariableService')
 const PipelineService = require('./PipelineService')
 const RunnerService = require('./RunnerService')
+const IssueService = require('./IssueService')
 
 module.exports = {
     ApiService,
@@ -11,5 +12,6 @@ module.exports = {
     Logger,
     VariableService,
     PipelineService,
-    RunnerService
+    RunnerService,
+    IssueService
 }
