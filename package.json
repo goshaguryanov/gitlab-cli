@@ -39,5 +39,8 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "husky": "^4.2.5"
+  },
+  "volta": {
+    "node": "16.13.2"
   }
 }
