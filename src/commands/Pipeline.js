@@ -80,7 +80,7 @@ const Pipeline = () => {
             })
         },
         create: {
-            command: 'pipeline-create <projectId> <ref>',
+            command: 'pipeline-create <projectId> <ref> <params>',
             describe: 'Start new pipeline',
             builder: globalArgs((yargs) => {
                 yargs
@@ -90,11 +90,15 @@ const Pipeline = () => {
                     .positional('ref', {
                         describe: 'reference to commit'
                     })
+                    .positional('params', {
+                        describe: 'variables passed to pipeline'
+                    })
             }),
             handler: catchAll(async (argv) => {
                 const data = await PipelineService.create(
                     argv.projectId,
-                    argv.ref
+                    argv.ref,
+                    argv.params
                 )
 
                 resolveResult(data, () => {
